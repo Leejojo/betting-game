@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="jquery-3.1.0.js"></script>
+</head>
+
+<body>
+  <h1>Place Your Bets!</h1>
+
+
+  <form id="myForm">
+    <label for="playerBet">Place your bet $</label>
+    <input type="number" min="5" max="10" id="playerBet" value="10">
+    <br>
+    <label for="playerChoice">Pick your Number</label>
+    <input type="number" min="1" max="10" id="playerChoice" value="1">
+  </form>
+
+  <p>
+    <button onclick="bet()">Go!</button>
+  </p>
+  
+  <div id="betInfo">
+    
+  </div>
+
+
+
+  <!-- end html -->
+
+  <script>
+
+  // player enters bet and choice
+  // do one comparison check (set earnings)
+  // if enough earnings, enter bet and choice again, on enter, run comparison again, otherwise, game over
+
+  var playerEarnings = 100;
+  var $info = $("#betInfo");
+
+  function bet() {
+    var playerBet = $('#playerBet').val();
+    var playerChoice = $("#playerChoice").val();
+    var computerChoice = Math.floor((Math.random() * 10) + 1);
+    
+    console.log(computerChoice);
+    $info.empty();
+    $info.append("<p>Your Number: " + playerChoice + "</p>")  
+    $info.append("<p>Computer's Number: " + computerChoice + "</p>")
+
+    if (playerChoice == computerChoice){
+      $info.append("<p>>>You won this round!<<</p>");
+      // alert("You won this round! Go again");
+      playerEarnings += parseInt(playerBet);
+      console.log(playerEarnings);
+    }
+    else if (playerChoice - computerChoice == 1 || playerChoice - computerChoice == -1){
+      $info.append("<p>>>Very close, you neither won nor lost your bet<<</p>");
+      // alert("Very close, you neither won or lost your bet. Try again");
+      playerEarnings;
+      console.log(playerEarnings);
+    }
+    else{
+      $info.append("<p>>>Too bad, you lost your bet<<</p>");     
+      // alert("Too bad, you lost your bet");
+      playerEarnings -= playerBet;
+      console.log(playerEarnings);
+    }
+    if (playerEarnings <= 0) {
+      alert("Game Over!");
+      location.reload();
+    }
+    $info.append("<p>Your remaining earnings: " + playerEarnings + "</p>")
+  }
+  </script>
+</body>
+</html>
